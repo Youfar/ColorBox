@@ -7,6 +7,8 @@ import javatry.colorbox.unit.ColorBoxTestCase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Comparator;
+
 
 /**
  * 文字列のテスト。<br>
@@ -87,6 +89,10 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * ソートして二番目を取得する、ってやり方で。
      */
     public void test_length_findSecondMax_bySort() {
+        String secMaxStr = "";
+        String maxString = "";
+        ArrayList<String> list = new ArrayList<String>();
+
         List<ColorBox> colorBoxList = getColorBoxList();
         for (int i = 0; i < colorBoxList.size(); i++) {
             ColorBox colorBox = colorBoxList.get(i);
@@ -94,13 +100,15 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
             for (int j = 0; j < spaceList.size(); j++) {
                 BoxSpace boxSpace = spaceList.get(j);
                 Object contents = boxSpace.getContents();
-                /*if (contents instanceof ) {
-
-                }*/
+                if (contents != null) {
+                    String strContents = contents.toString();
+                    list.add(strContents);
+                }
 
             }
-
         }
+        list.sort(Comparator.comparing(String::length).reversed());
+        log(list.get(2));
     }
 
     /**
@@ -108,6 +116,30 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * ただし、ソートして二番目を取得する、ってやり方は利用しないこと。
      */
     public void test_length_findSecondMax_nonSorted() {
+        String secMaxStr = "";
+        String maxString = "";
+
+        List<ColorBox> colorBoxList = getColorBoxList();
+        for (int i = 0; i < colorBoxList.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(i);
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (int j = 0; j < spaceList.size(); j++) {
+                BoxSpace boxSpace = spaceList.get(j);
+                Object contents = boxSpace.getContents();
+                if (contents != null) {
+                    String strContents = contents.toString();
+                    if (strContents.length() > maxString.length()) {
+                        secMaxStr = maxString;
+                        maxString = strContents;
+                    } else {
+                        if (strContents.length() > secMaxStr.length()) {
+                            secMaxStr = strContents;
+                        }
+                    }
+                }
+            }
+        }
+        log(secMaxStr);
     }
 
     /**
