@@ -6,6 +6,7 @@ import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Comparator;
 
@@ -146,6 +147,31 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる文字列の長さの合計は？
      */
     public void test_length_calculateLengthSum() {
+        ArrayList<String> list = new ArrayList<String>();
+        //Iterator<String> colorBoxIter = list.iterator();
+        int length = 0;
+
+        List<ColorBox> colorBoxList = getColorBoxList();
+        for (int i = 0; i < colorBoxList.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(i);
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (int j = 0; j < spaceList.size(); j++) {
+                BoxSpace boxSpace = spaceList.get(j);
+                Object contents = boxSpace.getContents();
+                if (contents != null) {
+                    String strContents = contents.toString();
+                    list.add(strContents);
+                }
+            }
+        }
+
+        int listSum = list.stream().mapToInt(w -> w.length()).sum();
+        log(listSum);
+        Iterator<String> colorBoxIter = list.iterator();
+        while (colorBoxIter.hasNext()) {
+            length = length + colorBoxIter.next().length();
+        }
+        log(length);
     }
 
     // ===================================================================================
@@ -155,12 +181,50 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * 「かまくら」で始まる文字列をしまっているカラーボックスの色は？
      */
     public void test_startsWith_findFirstWord() {
+        ArrayList<String> list = new ArrayList<String>();
+
+        List<ColorBox> colorBoxList = getColorBoxList();
+        for (int i = 0; i < colorBoxList.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(i);
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (int j = 0; j < spaceList.size(); j++) {
+                BoxSpace boxSpace = spaceList.get(j);
+                Object contents = boxSpace.getContents();
+                if (contents != null) {
+                    if (contents instanceof String) {
+                        String strContent = (String) contents;
+                        if (strContent.startsWith("かまくら")){
+                            log(colorBox.getColor());
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
      * 「いぬ」で終わる文字列をしまっているカラーボックスの色は？
      */
     public void test_endsWith_findLastWord() {
+        ArrayList<String> list = new ArrayList<String>();
+
+        List<ColorBox> colorBoxList = getColorBoxList();
+        for (int i = 0; i < colorBoxList.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(i);
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (int j = 0; j < spaceList.size(); j++) {
+                BoxSpace boxSpace = spaceList.get(j);
+                Object contents = boxSpace.getContents();
+                if (contents != null) {
+                    if (contents instanceof String) {
+                        String strContent = (String) contents;
+                        if (strContent.endsWith("いぬ")){
+                            log(colorBox.getColor());
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // ===================================================================================
@@ -170,12 +234,50 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * あなたのカラーボックスに入ってる「いぬ」で終わる文字列で、「いぬ」は何文字目から始まる？
      */
     public void test_indexOf_findIndex() {
+        ArrayList<String> list = new ArrayList<String>();
+
+        List<ColorBox> colorBoxList = getColorBoxList();
+        for (int i = 0; i < colorBoxList.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(i);
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (int j = 0; j < spaceList.size(); j++) {
+                BoxSpace boxSpace = spaceList.get(j);
+                Object contents = boxSpace.getContents();
+                if (contents != null) {
+                    if (contents instanceof String) {
+                        String strContent = (String) contents;
+                        if (strContent.endsWith("いぬ")){
+                            log(strContent.indexOf("いぬ"));
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
      * あなたのカラーボックスに入ってる「ず」を二つ以上含む文字列で、最後の「ず」は何文字目から始まる？
      */
     public void test_lastIndexOf_findIndex() {
+        ArrayList<String> list = new ArrayList<String>();
+
+        List<ColorBox> colorBoxList = getColorBoxList();
+        for (int i = 0; i < colorBoxList.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(i);
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (int j = 0; j < spaceList.size(); j++) {
+                BoxSpace boxSpace = spaceList.get(j);
+                Object contents = boxSpace.getContents();
+                if (contents != null) {
+                    if (contents instanceof String) {
+                        String strContent = (String) contents;
+                        if (strContent.indexOf("ず") != strContent.lastIndexOf("ず")){
+                            log(strContent.lastIndexOf("ず"));
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // ===================================================================================
@@ -185,12 +287,46 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる「いぬ」で終わる文字列の最初の一文字は？
      */
     public void test_substring_findFirstChar() {
+        List<ColorBox> colorBoxList = getColorBoxList();
+        for (int i = 0; i < colorBoxList.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(i);
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (int j = 0; j < spaceList.size(); j++) {
+                BoxSpace boxSpace = spaceList.get(j);
+                Object contents = boxSpace.getContents();
+                if (contents != null) {
+                    if (contents instanceof String) {
+                        String strContent = (String) contents;
+                        if(strContent.endsWith("いぬ")){
+                            log(strContent.substring(0,1));
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
      * カラーボックスに入ってる「かまくら」で始まる文字列の最後の一文字は？
      */
     public void test_substring_findLastChar() {
+        List<ColorBox> colorBoxList = getColorBoxList();
+        for (int i = 0; i < colorBoxList.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(i);
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (int j = 0; j < spaceList.size(); j++) {
+                BoxSpace boxSpace = spaceList.get(j);
+                Object contents = boxSpace.getContents();
+                if (contents != null) {
+                    if (contents instanceof String) {
+                        String strContent = (String) contents;
+                        if(strContent.startsWith("かまくら")){
+                            log(strContent.substring(strContent.length() - 1, strContent.length()));
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // ===================================================================================
@@ -199,7 +335,26 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
     /**
      * カラーボックスに入ってる「ー」を含んだ文字列から「ー」を全て除去したら何文字？
      */
+    //Todo:没有-怎么办
     public void test_replace_removeBo() {
+        List<ColorBox> colorBoxList = getColorBoxList();
+        for (int i = 0; i < colorBoxList.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(i);
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (int j = 0; j < spaceList.size(); j++) {
+                BoxSpace boxSpace = spaceList.get(j);
+                Object contents = boxSpace.getContents();
+                if (contents != null) {
+                    if (contents instanceof String) {
+                        String strContent = (String) contents;
+                        if(strContent.contains("ー")){
+                            strContent.replace("ー","");
+                            log(strContent.length());
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // ===================================================================================
@@ -208,7 +363,20 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
     /**
      * カラーボックスの中で、色の名前が一番長いものは？
      */
+    //Todo: all null判断
     public void test_findMaxColorSize() throws Exception {
+        List<ColorBox> colorBoxList = getColorBoxList();
+        ArrayList<String> colorNameList = new ArrayList<String>();
+
+        for (int i = 0; i < colorBoxList.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(i);
+            BoxColor color = colorBox.getColor();
+            colorNameList.add(color.toString());
+        }
+        colorNameList.sort(Comparator.comparing(String::length).reversed());
+        log(colorNameList.get(0));
+
+
     }
 
     /**
