@@ -1,6 +1,12 @@
 package javatry.enjoy.chooh;
 
+import javatry.colorbox.ColorBox;
+import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 数値関連のテスト。<br>
@@ -16,6 +22,23 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
      * カラーボックスに入ってる日付の月を全て足したら？
      */
     public void test_sumMonth() {
+        int sum = 0;
+        List<ColorBox> colorBoxList = getColorBoxList();
+        for (int i = 0; i < colorBoxList.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(i);
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (int j = 0; j < spaceList.size(); j++) {
+                BoxSpace boxSpace = spaceList.get(j);
+                Object contents = boxSpace.getContents();
+                if (contents != null) {
+                    if (contents instanceof LocalDateTime || contents instanceof LocalDate){
+                        sum = sum + toLocalDate(contents).getMonthValue();
+                    }
+                }
+            }
+        }
+        log(sum);
+
     }
 
     /**

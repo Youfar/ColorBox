@@ -5,10 +5,8 @@ import javatry.colorbox.color.BoxColor;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Comparator;
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 /**
@@ -383,12 +381,45 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * カラーボックスの中で、2012/06/04 を示す日付が持っている秒は？
      */
     public void test_findDBFluteBirthdateSecond() throws Exception {
+        List<ColorBox> colorBoxList = getColorBoxList();
+        for (int i = 0; i < colorBoxList.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(i);
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (int j = 0; j < spaceList.size(); j++) {
+                BoxSpace boxSpace = spaceList.get(j);
+                Object contents = boxSpace.getContents();
+                if (contents != null) {
+                    if (contents instanceof LocalDateTime){
+                        if(toLocalDate(contents).isEqual(toLocalDate("2012/06/04"))){
+                            log(toLocalDateTime(contents).getSecond());
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
      * カラーボックスの中に入っている Map を "map:{ key = value ; key = value ; ... }" という形式で表示。
      */
     public void test_showMap() throws Exception {
+        List<ColorBox> colorBoxList = getColorBoxList();
+        for (int i = 0; i < colorBoxList.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(i);
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (int j = 0; j < spaceList.size(); j++) {
+                BoxSpace boxSpace = spaceList.get(j);
+                Object contents = boxSpace.getContents();
+                if (contents != null) {
+                    if (contents instanceof Map){
+                        Map<Object, Object> map = (Map)contents;
+                        for (Map.Entry entry : map.entrySet()){
+                            log(entry.getKey() + " = " + entry.getValue());
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -401,6 +432,16 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * </pre>
      */
     public void test_parseMap() throws Exception {
+        Map<String, String> Map = new HashMap<String, String>();
+        String mapString = "map:{ key1 = value1 ; key2 = value2 ; key3 = value3 }";
+        String subMapString = mapString.substring(5,mapString.length()-1);
+        String[] pairs = subMapString.split(";");
+        for (int i = 0; i < pairs.length; i++) {
+            String pair = pairs[i];
+            String[] keyValue = pair.split("=");
+            Map.put(keyValue[0],keyValue[1]);
+        }
+        log(Map.toString());
     }
 
     /**
@@ -411,5 +452,74 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * でも、同じプログラムでMapに変換できるようにするべし。
      */
     public void test_parseMap_deep() throws Exception {
+        /*final String aaa = "map:{";
+        final String bbb = "}";
+
+        Map<String, String> testMap = new HashMap<String, String>();
+        Map<String, Map<String, String>> map = new HashMap<String, Map<String,String>>();
+        String mapString = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
+        String subMapString = mapString.substring(5,mapString.length()-2);
+        String nestMapString = subMapString.substring(subMapString.indexOf(aaa)+5,subMapString.indexOf(bbb));
+        String nest1MapString = subMapString.substring(subMapString.indexOf(aaa),subMapString.indexOf(bbb)+1);
+        String reMapString = subMapString.replace(nest1MapString,"xxx");
+
+        String[] pairsOut = reMapString.split(";");
+        String[] pairsIn = nest1MapString.split(";");
+
+        for (int i = 0; i < pairsOut.length; i++) {
+            String pairOut = pairsOut[i];
+            String[] keyValue = pairOut.split("=");
+            if(keyValue[1] == "xxx"){
+                for (int j = 0; j < pairsIn.length; j++) {
+
+                }
+            } else {
+                testMap.put(keyValue[0], keyValue[1]);
+            }
+        }
+        log(testMap.toString());
+
+        log(nest1MapString);
+        log(reMapString);
+        //log(reMapString);*/
+
+        //TODO:test1
+        final String aaa = "map:{";
+        final String bbb = "}";
+
+        Map<String, String> testMap = new HashMap<String, String>();
+        Map<String, String> inMap = new HashMap<String, String>();
+
+        Map<String, Map<String, String>> map = new HashMap<String, Map<String,String>>();
+
+        String mapString = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
+        String subMapString = mapString.substring(5,mapString.length()-2);
+        String nestMapString = subMapString.substring(subMapString.indexOf(aaa)+5,subMapString.indexOf(bbb));
+        String nest1MapString = subMapString.substring(subMapString.indexOf(aaa),subMapString.indexOf(bbb)+1);
+        String reMapString = subMapString.replace(nest1MapString,"xxx");
+
+        String[] pairsOut = reMapString.split(";");
+        String[] pairsIn = nestMapString.split(";");
+
+        for (int i = 0; i < pairsOut.length; i++) {
+            String pairOut = pairsOut[i];
+            String[] keyValue = pairOut.replace(" ","").split("=");
+            if(keyValue[1].equals("xxx")){
+                for (int j = 0; j < pairsIn.length; j++) {
+                    String pairIn = pairsIn[j];
+                    String[] keyValueIn = pairIn.replace(" ","").split("=");
+                    inMap.put(keyValueIn[0], keyValueIn[1]);
+                }
+                testMap.put(keyValue[0], inMap.toString());
+            } else {
+                testMap.put(keyValue[0], keyValue[1]);
+            }
+        }
+
+        //log(inMap.toString());
+        log(testMap.toString());
+
+        //log(nestMapString);
+        //log(reMapString);
     }
 }
