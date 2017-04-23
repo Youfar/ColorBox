@@ -36,12 +36,9 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
     public void test_length_findMax() {
         String maxString = "";
 
-        List<ColorBox> colorBoxList = getColorBoxList();
-        for (int i = 0; i < colorBoxList.size(); i++) {
-            ColorBox colorBox = colorBoxList.get(i);
-            List<BoxSpace> spaceList = colorBox.getSpaceList();
-            for (int j = 0; j < spaceList.size(); j++) {
-                BoxSpace boxSpace = spaceList.get(j);
+        //List<ColorBox> colorBoxList = getColorBoxList();
+        for (ColorBox colorBox : getColorBoxList()) {
+            for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof String) {
                     String strContents = (String) contents;
@@ -58,9 +55,7 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる文字列の中で、一番長いものと短いものの差は何文字？
      */
     public void test_length_findMaxMinDiff() {
-        String maxString = "";
-        String minString = "asdasdasdasdasdasdasdasdasdasdasd";
-        //TODO: change minString
+        ArrayList<String> list = new ArrayList<String>();
 
         List<ColorBox> colorBoxList = getColorBoxList();
         for (int i = 0; i < colorBoxList.size(); i++) {
@@ -69,18 +64,16 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
             for (int j = 0; j < spaceList.size(); j++) {
                 BoxSpace boxSpace = spaceList.get(j);
                 Object contents = boxSpace.getContents();
-                if (contents instanceof String) {
-                    String strContents = (String) contents;
-                    if (strContents.length() > maxString.length()){
-                        maxString = strContents;
-                    }
-                    if (strContents.length() < minString.length()){
-                        minString = strContents;
+                if (contents != null) {
+                    if (contents instanceof String) {
+                        String strContents = contents.toString();
+                        list.add(strContents);
                     }
                 }
             }
         }
-        log(maxString.length() - minString.length());
+        list.sort(Comparator.comparing(String::length).reversed());
+        log(list.get(0).length() - list.get(list.size()-1).length());
     }
 
     /**
@@ -88,8 +81,6 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * ソートして二番目を取得する、ってやり方で。
      */
     public void test_length_findSecondMax_bySort() {
-        String secMaxStr = "";
-        String maxString = "";
         ArrayList<String> list = new ArrayList<String>();
 
         List<ColorBox> colorBoxList = getColorBoxList();
@@ -107,7 +98,7 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
             }
         }
         list.sort(Comparator.comparing(String::length).reversed());
-        log(list.get(2));
+        log(list.get(1));
     }
 
     /**
@@ -157,19 +148,16 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
                 BoxSpace boxSpace = spaceList.get(j);
                 Object contents = boxSpace.getContents();
                 if (contents != null) {
-                    String strContents = contents.toString();
-                    list.add(strContents);
+                    if (contents instanceof String) {
+                        String strContents = contents.toString();
+                        list.add(strContents);
+                    }
                 }
             }
         }
 
         int listSum = list.stream().mapToInt(w -> w.length()).sum();
         log(listSum);
-        Iterator<String> colorBoxIter = list.iterator();
-        while (colorBoxIter.hasNext()) {
-            length = length + colorBoxIter.next().length();
-        }
-        log(length);
     }
 
     // ===================================================================================
