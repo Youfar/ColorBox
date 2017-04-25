@@ -31,41 +31,40 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
     }
 
     /**
-     * カラーボックスに入っているすべての値を取り出し、文字列以外は文字列に変換してリストで返すメソッド
+     * カラーボックスで文字列の値を取り出し、リストで返すメソッド
      */
     private ArrayList<String> getColorBoxStrContentList(){
-        ArrayList<String> colorBoxContentList = new ArrayList<String>();
+        ArrayList<String> colorBoxStrContentList = new ArrayList<String>();
 
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof String) {
                     String strContents = contents.toString();
-                    colorBoxContentList.add(strContents);
+                    colorBoxStrContentList.add(strContents);
                 }
             }
         }
-        return colorBoxContentList;
+        return colorBoxStrContentList;
     }
 
     /**
      * カラーボックスに入ってる文字列の中で、一番長い文字列は？
      */
     public void test_length_findMax() {
-        ArrayList<String> colorBoxContentList = getColorBoxStrContentList();
-        colorBoxContentList.sort(Comparator.comparing(String::length).reversed());
-        log("一番長い文字列は " + colorBoxContentList.get(0));
+        ArrayList<String> colorBoxStrContentList = getColorBoxStrContentList();
+        colorBoxStrContentList.sort(Comparator.comparing(String::length).reversed());
+        log("一番長い文字列は " + colorBoxStrContentList.get(0));
     }
 
     /**
      * カラーボックスに入ってる文字列の中で、一番長いものと短いものの差は何文字？
      */
-    //TODO:log 太长
     public void test_length_findMaxMinDiff() {
-        ArrayList<String> colorBoxContentList = getColorBoxStrContentList();
-        colorBoxContentList.sort(Comparator.comparing(String::length).reversed());
+        ArrayList<String> colorBoxStrContentList = getColorBoxStrContentList();
+        colorBoxStrContentList.sort(Comparator.comparing(String::length).reversed());
         log("一番長いものと短いものの差は " +
-                (colorBoxContentList.get(0).length() - colorBoxContentList.get(colorBoxContentList.size()-1).length()) + " 文字");
+                (colorBoxStrContentList.get(0).length() - colorBoxStrContentList.get(colorBoxStrContentList.size()-1).length()) + " 文字");
     }
 
     /**
@@ -73,24 +72,19 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * ソートして二番目を取得する、ってやり方で。
      */
     public void test_length_findSecondMax_bySort() {
-        ArrayList<String> colorBoxContentList = new ArrayList<String>();
-
-        List<ColorBox> colorBoxList = getColorBoxList();
-        for (int i = 0; i < colorBoxList.size(); i++) {
-            ColorBox colorBox = colorBoxList.get(i);
-            List<BoxSpace> spaceList = colorBox.getSpaceList();
-            for (int j = 0; j < spaceList.size(); j++) {
-                BoxSpace boxSpace = spaceList.get(j);
+        ArrayList<String> colorBoxStrContentList = new ArrayList<String>();
+        for (ColorBox colorBox : getColorBoxList()) {
+            for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents != null) {
                     String strContents = contents.toString();
-                    colorBoxContentList.add(strContents);
+                    colorBoxStrContentList.add(strContents);
                 }
-
             }
         }
-        colorBoxContentList.sort(Comparator.comparing(String::length).reversed());
-        log("二番目に長い文字列は " + colorBoxContentList.get(1));
+
+        colorBoxStrContentList.sort(Comparator.comparing(String::length).reversed());
+        log("二番目に長い文字列は " + colorBoxStrContentList.get(1));
     }
 
     /**
@@ -123,10 +117,9 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
     /**
      * カラーボックスに入ってる文字列の長さの合計は？
      */
-    //TODO：改成非stream的
     public void test_length_calculateLengthSum() {
-        ArrayList<String> colorBoxContentList = getColorBoxStrContentList();
-        int listSum = colorBoxContentList.stream().mapToInt(w -> w.length()).sum();
+        ArrayList<String> colorBoxStrContentList = getColorBoxStrContentList();
+        int listSum = colorBoxStrContentList.stream().mapToInt(w -> w.length()).sum();
         log("文字列の長さの合計は " + listSum);
     }
 
@@ -192,7 +185,6 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
     /**
      * あなたのカラーボックスに入ってる「いぬ」で終わる文字列で、「いぬ」は何文字目から始まる？
      */
-    //TODO:いぬいぬいぬ
     public void test_indexOf_findIndex() {
         ArrayList<Integer> strPositionList = new ArrayList<Integer>();
         for (ColorBox colorBox : getColorBoxList()) {
@@ -211,7 +203,7 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
             log("「いぬ」で終わる文字列はありません");
         } else {
             while(i.hasNext()) {
-                log("「いぬ」で終わる文字列で、「いぬ」は" + i.next() + " 文字目から始まる");
+                log("「いぬ」で終わる文字列で、「いぬ」は " + i.next() + " 文字目から始まる");
             }
         }
     }
@@ -249,20 +241,20 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる「いぬ」で終わる文字列の最初の一文字は？
      */
     public void test_substring_findFirstChar() {
-        ArrayList<String> strPositionList = new ArrayList<String>();
+        ArrayList<String> strList = new ArrayList<String>();
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof String) {
                     String strContent = (String) contents;
                     if (strContent.endsWith("いぬ")){
-                        strPositionList.add(strContent.substring(0,1));
+                        strList.add(strContent.substring(0, 1));
                     }
                 }
             }
         }
-        Iterator<String> i = strPositionList.iterator();
-        if (strPositionList.isEmpty()) {
+        Iterator<String> i = strList.iterator();
+        if (strList.isEmpty()) {
             log("「いぬ」で終わる文字列はありません");
         } else {
             while(i.hasNext()) {
@@ -275,20 +267,20 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる「かまくら」で始まる文字列の最後の一文字は？
      */
     public void test_substring_findLastChar() {
-        ArrayList<String> strPositionList = new ArrayList<String>();
+        ArrayList<String> strList = new ArrayList<String>();
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof String) {
                     String strContent = (String) contents;
                     if (strContent.startsWith("かまくら")){
-                        strPositionList.add(strContent.substring(strContent.length() - 1, strContent.length()));
+                        strList.add(strContent.substring(strContent.length() - 1, strContent.length()));
                     }
                 }
             }
         }
-        Iterator<String> i = strPositionList.iterator();
-        if (strPositionList.isEmpty()) {
+        Iterator<String> i = strList.iterator();
+        if (strList.isEmpty()) {
             log("「かまくら」で始まる文字列はありません");
         } else {
             while(i.hasNext()) {
@@ -304,24 +296,24 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる「ー」を含んだ文字列から「ー」を全て除去したら何文字？
      */
     public void test_replace_removeBo() {
-        ArrayList<Integer> strPositionList = new ArrayList<Integer>();
+        ArrayList<Integer> strList = new ArrayList<Integer>();
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof String) {
                     String strContent = (String) contents;
                     if (strContent.contains("ー")){
-                        strPositionList.add(strContent.replace("ー","").length());
+                        strList.add(strContent.replace("ー","").length());
                     }
                 }
             }
         }
-        Iterator<Integer> i = strPositionList.iterator();
-        if (strPositionList.isEmpty()) {
+        Iterator<Integer> i = strList.iterator();
+        if (strList.isEmpty()) {
             log("「ー」を含んだ文字列はありません");
         } else {
             while(i.hasNext()) {
-                log("「ー」を含んだ文字列から「ー」を全て除去したら " + i.next() + "文字");
+                log("「ー」を含んだ文字列から「ー」を全て除去したら " + i.next() + " 文字");
             }
         }
     }
@@ -339,7 +331,7 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
             colorNameList.add(color.toString());
         }
         colorNameList.sort(Comparator.comparing(String::length).reversed());
-        log("色の名前が一番長いものは" + colorNameList.get(0));
+        log("色の名前が一番長いものは " + colorNameList.get(0));
     }
 
     /**
@@ -351,7 +343,7 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof LocalDateTime){
                     if (toLocalDate(contents).isEqual(toLocalDate("2012/06/04"))){
-                        log(toLocalDateTime(contents).getSecond());
+                        log("2012/06/04 を示す日付が持っている秒は " + toLocalDateTime(contents).getSecond());
                     }
                 }
             }
@@ -382,6 +374,7 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
                 }
             }
         }
+        mapToString.delete(mapToString.lastIndexOf(";"), mapToString.length());
         mapToString.append(mapSuffix);
         log(mapToString);
     }
@@ -400,7 +393,7 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
         String mapString = "map:{ key1 = value1 ; key2 = value2 ; key3 = value3 }";
         Map<String, String> Map = new HashMap<String, String>();
 
-        String subMapString = mapString.substring(5,mapString.length()-1);
+        String subMapString = mapString.substring(mapPrefix.length(), mapString.length() - 1);
         String[] pairs = subMapString.split(";");
         for (int i = 0; i < pairs.length; i++) {
             String pair = pairs[i];
