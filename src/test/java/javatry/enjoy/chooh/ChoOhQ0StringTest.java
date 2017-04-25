@@ -7,6 +7,7 @@ import javatry.colorbox.unit.ColorBoxTestCase;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import net.sf.json.JSONObject;
 
 
 /**
@@ -391,14 +392,14 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
     public void test_parseMap() throws Exception {
         String mapPrefix = "map:";
         String mapString = "map:{ key1 = value1 ; key2 = value2 ; key3 = value3 }";
-        Map<String, String> Map = new HashMap<String, String>();
+        Map<String, String> Map = new HashMap<>();
 
-        String subMapString = mapString.substring(mapPrefix.length(), mapString.length() - 1);
+        String subMapString = mapString.substring(mapPrefix.length()+1, mapString.length() - 1);
         String[] pairs = subMapString.split(";");
         for (int i = 0; i < pairs.length; i++) {
             String pair = pairs[i];
             String[] keyValue = pair.split("=");
-            Map.put(keyValue[0],keyValue[1]);
+            Map.put(keyValue[0], keyValue[1]);
         }
         log(mapPrefix + Map.toString());
     }
@@ -410,21 +411,49 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * "map:{ key1 = value1 ; key2 = value2 ; key3 = map:{ nkey31 = nvalue31 ; nkey32 = nvalue32 } }" <br />
      * でも、同じプログラムでMapに変換できるようにするべし。
      */
+
+    public static Map<String, Object> toMap(String object) {
+        final String mapPrefix = "map:{";
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        Iterator<String> keysItr = object.keys();
+        while(keysItr.hasNext()) {
+            String key = keysItr.next();
+            //get 应该是substring
+            //value 或者是value或者是map:{}
+            String value = object.get(key);
+
+            //此处是判断value前后是否有map:{ }
+            if(value.contains(mapPrefix)) {
+                value = toMap(value);
+            }
+            map.put(key,value);
+        }
+        return map;
+
+    }
     public void test_parseMap_deep() throws Exception {
+        Map<String, Object> retMap = new HashMap<String, Object>();
+        String mapString = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
+        if(mapString != null) {
+            retMap = toMap(mapString);
+        }
+        log(retMap.toString());
         //TODO:test1
+
+
+
+
+
+
+
         final String aaa = "map:{";
         final String bbb = "}";
-
-
-
-
-
         Map<String, String> testMap = new HashMap<String, String>();
         Map<String, String> inMap = new HashMap<String, String>();
 
-        Map<String, Map<String, String>> map = new HashMap<String, Map<String,String>>();
 
-        String mapString = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
+        //String mapString = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
         String subMapString = mapString.substring(5,mapString.length()-2);
         String nestMapString = subMapString.substring(subMapString.indexOf(aaa)+5,subMapString.indexOf(bbb));
         String nest1MapString = subMapString.substring(subMapString.indexOf(aaa),subMapString.indexOf(bbb)+1);
