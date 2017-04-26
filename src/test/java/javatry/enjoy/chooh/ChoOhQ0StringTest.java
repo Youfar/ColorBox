@@ -7,7 +7,7 @@ import javatry.colorbox.unit.ColorBoxTestCase;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import net.sf.json.JSONObject;
+//import net.sf.json.JSONObject;
 
 
 /**
@@ -354,7 +354,6 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
     /**
      * カラーボックスの中に入っている Map を "map:{ key = value ; key = value ; ... }" という形式で表示。
      */
-    //todo: 最后一个;怎么办
     public void test_showMap() throws Exception {
         String mapPrefix = "map:{ ";
         String mapSuffix = "}";
@@ -394,7 +393,7 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
         String mapString = "map:{ key1 = value1 ; key2 = value2 ; key3 = value3 }";
         Map<String, String> Map = new HashMap<>();
 
-        String subMapString = mapString.substring(mapPrefix.length()+1, mapString.length() - 1);
+        String subMapString = mapString.substring(mapPrefix.length() + 1, mapString.length() - 1);
         String[] pairs = subMapString.split(";");
         for (int i = 0; i < pairs.length; i++) {
             String pair = pairs[i];
@@ -412,19 +411,31 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * でも、同じプログラムでMapに変換できるようにするべし。
      */
 
-    public static Map<String, Object> toMap(String object) {
+    public static Map<String, Object> toMap(String mapContent) {
         final String mapPrefix = "map:{";
         Map<String, Object> map = new HashMap<String, Object>();
 
-        Iterator<String> keysItr = object.keys();
+        //只取本层的keys
+        //等号前面
+        int count;
+
+        //String[] keyOut = object.split(";");
+        //把key都取出来
+        //value用substring
+
+        for (int i = 0; i < mapContent.length(); i++) {
+
+        }
+
+        Iterator<String> keysItr = mapContent.keys();
         while(keysItr.hasNext()) {
             String key = keysItr.next();
             //get 应该是substring
             //value 或者是value或者是map:{}
-            String value = object.get(key);
+            Object value = mapContent.get(key);
 
             //此处是判断value前后是否有map:{ }
-            if(value.contains(mapPrefix)) {
+            if(value.toString().contains(mapPrefix)) {
                 value = toMap(value);
             }
             map.put(key,value);
@@ -435,6 +446,7 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
     public void test_parseMap_deep() throws Exception {
         Map<String, Object> retMap = new HashMap<String, Object>();
         String mapString = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
+        String mapString2 = "map:{ key1 = value1 ; key2 = map:{ nkey1 = map:{ nnkey1 = map:{ nnnkey1 = map:{ nnnnkey1 = nnnnvalue1 } } } ; nkey2 = nvalue2 } ; key3 = value3 }";
         if(mapString != null) {
             retMap = toMap(mapString);
         }
