@@ -411,13 +411,33 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * でも、同じプログラムでMapに変換できるようにするべし。
      */
 
-    public static Map<String, Object> toMap(String mapContent) {
+    public Map<String, Object> toMap(String mapContent) {
+        //String mapContent = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
         final String mapPrefix = "map:{";
+        final String mapSuffix = "}";
         Map<String, Object> map = new HashMap<String, Object>();
+        List<String> pairs = new ArrayList<String>();
+        boolean inQuotes = false;
+        int start = 0;
 
+        String mapString = mapContent.trim().substring(mapContent.indexOf(mapPrefix) + mapPrefix.length(),mapContent.lastIndexOf(mapSuffix));
+
+        for(int current = 0; current < mapString.length(); current++) {
+            if (mapString.charAt(current) == '{') inQuotes = !inQuotes;
+            if (mapString.charAt(current) == '}') inQuotes = !inQuotes;
+            boolean atLastChar = (current == mapString.length() - 1);
+            if (atLastChar)
+                pairs.add(mapString.substring(start));
+            else if (mapString.charAt(current) == ';' && !inQuotes) {
+                pairs.add(mapString.substring(start, current));
+                start = current + 1;
+            }
+
+        }
+
+        log(pairs);
         //只取本层的keys
         //等号前面
-        int count;
 
         //String[] keyOut = object.split(";");
         //把key都取出来
@@ -427,7 +447,7 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
 
         }
 
-        Iterator<String> keysItr = mapContent.keys();
+        /*Iterator<String> keysItr = mapContent.keys();
         while(keysItr.hasNext()) {
             String key = keysItr.next();
             //get 应该是substring
@@ -439,11 +459,23 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
                 value = toMap(value);
             }
             map.put(key,value);
-        }
+        }*/
         return map;
 
     }
+
     public void test_parseMap_deep() throws Exception {
+        Map<String, Object> retMap = new HashMap<String, Object>();
+        String mapString = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
+        String mapString2 = "map:{ key1 = value1 ; key2 = map:{ nkey1 = map:{ nnkey1 = map:{ nnnkey1 = map:{ nnnnkey1 = nnnnvalue1 } } } ; nkey2 = nvalue2 } ; key3 = value3 }";
+        if(mapString != null) {
+            retMap = toMap(mapString);
+        }
+        log(retMap.toString());
+
+    }
+
+    /*public void test_parseMap_deep() throws Exception {
         Map<String, Object> retMap = new HashMap<String, Object>();
         String mapString = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
         String mapString2 = "map:{ key1 = value1 ; key2 = map:{ nkey1 = map:{ nnkey1 = map:{ nnnkey1 = map:{ nnnnkey1 = nnnnvalue1 } } } ; nkey2 = nvalue2 } ; key3 = value3 }";
@@ -492,5 +524,5 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
         String maplString = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
 
         log(testMap.toString());
-    }
+    }*/
 }
