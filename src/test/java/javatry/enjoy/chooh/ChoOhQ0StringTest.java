@@ -400,7 +400,7 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
             String[] keyValue = pair.split("=");
             Map.put(keyValue[0], keyValue[1]);
         }
-        log(mapPrefix + Map.toString());
+        log(Map.toString());
     }
 
     /**
@@ -416,23 +416,27 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
         final String mapPrefix = "map:{";
         final String mapSuffix = "}";
         Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> tempMap = new HashMap<String, Object>();
         List<String> pairs = new ArrayList<String>();
         boolean inQuotes = false;
-        int start = 0;
+        int startPos = 0;
 
-        String mapString = mapContent.trim().substring(mapContent.indexOf(mapPrefix) + mapPrefix.length(),mapContent.lastIndexOf(mapSuffix));
+        String test = mapContent.replace(" ", "");
+
+        //String mapString = test.substring(5,40);
+        String mapString = mapContent.replace(" ", "").substring(test.indexOf(mapPrefix)+mapPrefix.length(), test.lastIndexOf(mapSuffix));
+        //String mapString = test.substring(test.indexOf(mapPrefix)+mapPrefix.length(), test.lastIndexOf(mapSuffix));
 
         for(int current = 0; current < mapString.length(); current++) {
             if (mapString.charAt(current) == '{') inQuotes = !inQuotes;
             if (mapString.charAt(current) == '}') inQuotes = !inQuotes;
             boolean atLastChar = (current == mapString.length() - 1);
             if (atLastChar)
-                pairs.add(mapString.substring(start));
+                pairs.add(mapString.substring(startPos));
             else if (mapString.charAt(current) == ';' && !inQuotes) {
-                pairs.add(mapString.substring(start, current));
-                start = current + 1;
+                pairs.add(mapString.substring(startPos, current));
+                startPos = current + 1;
             }
-
         }
 
         log(pairs);
@@ -443,25 +447,21 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
         //把key都取出来
         //value用substring
 
-        for (int i = 0; i < mapContent.length(); i++) {
 
-        }
-
-        /*Iterator<String> keysItr = mapContent.keys();
-        while(keysItr.hasNext()) {
-            String key = keysItr.next();
+        for (int i = 0; i < pairs.size(); i++) {
+            String keyValue[] = pairs.get(i).trim().split("=", 2);
+            String key = keyValue[0];
             //get 应该是substring
             //value 或者是value或者是map:{}
-            Object value = mapContent.get(key);
+            String value = keyValue[1];
 
-            //此处是判断value前后是否有map:{ }
-            if(value.toString().contains(mapPrefix)) {
-                value = toMap(value);
+            if(value.contains(mapPrefix)) {
+                tempMap = toMap(value);
+                value = tempMap.toString();
             }
             map.put(key,value);
-        }*/
+        }
         return map;
-
     }
 
     public void test_parseMap_deep() throws Exception {
@@ -469,7 +469,7 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
         String mapString = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
         String mapString2 = "map:{ key1 = value1 ; key2 = map:{ nkey1 = map:{ nnkey1 = map:{ nnnkey1 = map:{ nnnnkey1 = nnnnvalue1 } } } ; nkey2 = nvalue2 } ; key3 = value3 }";
         if(mapString != null) {
-            retMap = toMap(mapString);
+            retMap = toMap(mapString2);
         }
         log(retMap.toString());
 
@@ -484,13 +484,6 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
         }
         log(retMap.toString());
         //TODO:test1
-
-
-
-
-
-
-
         final String aaa = "map:{";
         final String bbb = "}";
         Map<String, String> testMap = new HashMap<String, String>();
