@@ -27,7 +27,6 @@ public abstract class ColorBoxTestCase extends UnitryTestCase {
             colorBox.getUpperSpace().addContents("にーるずやーどれめでぃーず");
             colorBox.getMiddleSpace().addContents(null);
             colorBox.getLowerSpace().addContents(3);
-            //colorBox.getLowerSpace().addContents("かまくらのいぬ");
             colorBoxList.add(colorBox);
         }
         {
@@ -35,7 +34,6 @@ public abstract class ColorBoxTestCase extends UnitryTestCase {
             colorBox.getUpperSpace().addContents(926);
             colorBox.getMiddleSpace().addContents(604);
             colorBox.getLowerSpace().addContents("かまくらのいぬ");
-            //colorBox.getLowerSpace().addContents("いぬいぬいぬいぬ");
             colorBoxList.add(colorBox);
         }
         {

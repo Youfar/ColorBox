@@ -6,9 +6,7 @@ import javatry.colorbox.unit.ColorBoxTestCase;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * 数値関連のテスト。<br>
@@ -69,9 +67,10 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
      * @throws Exception
      */
     public void test_countZeroToHundred() throws Exception {
-        ArrayList<Integer> colorBoxStrContentList = getColorBoxNumContentList();
+        //ArrayList<Integer> colorBoxStrContentList = getColorBoxNumContentList();
         //colorBoxStrContentList.sort(Comparator.comparing(String::length).reversed());
-        log("一番長い文字列は " + colorBoxStrContentList.get(0));
+        //log("一番長い文字列は " + colorBoxStrContentList.get(0));
+
     }
 
     // ===================================================================================
@@ -81,6 +80,18 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
      * 青色のカラーボックスに入ってる Map の中の商品で一番高いものは？
      */
     public void test_findMax() {
+        for (ColorBox colorBox : getColorBoxList()) {
+            for (BoxSpace boxSpace : colorBox.getSpaceList()) {
+                Object contents = boxSpace.getContents();
+                if (contents instanceof Map) {
+                    Map map = (Map)contents;
+                    Map.Entry<Objects, Objects> maxEntry = null;
+                    //for (Map.Entry entry : map.entrySet()){
+                        //if (entry.getValue() > maxEntry.getValue())
+                    //}
+                }
+            }
+        }
     }
 
     /**
