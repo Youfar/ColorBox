@@ -404,55 +404,40 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
     }
 
     /**
-     * "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }" <br />
-     * という文字列をMapに変換してtoString()すると？ <br />
-     * <br />
-     * "map:{ key1 = value1 ; key2 = value2 ; key3 = map:{ nkey31 = nvalue31 ; nkey32 = nvalue32 } }" <br />
-     * でも、同じプログラムでMapに変換できるようにするべし。
+     * ???
      */
 
     public Map<String, Object> toMap(String mapContent) {
-        //String mapContent = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
         final String mapPrefix = "map:{";
         final String mapSuffix = "}";
         Map<String, Object> map = new HashMap<String, Object>();
         Map<String, Object> tempMap = new HashMap<String, Object>();
-        List<String> pairs = new ArrayList<String>();
+        List<String> keyValuePairs = new ArrayList<String>();
+        //:は{}の中にいるかどうかを判断する
         boolean inQuotes = false;
         int startPos = 0;
 
-        String test = mapContent.replace(" ", "");
+        String blankReplaceString = mapContent.replace(" ", "");
 
-        //String mapString = test.substring(5,40);
-        String mapString = mapContent.replace(" ", "").substring(test.indexOf(mapPrefix)+mapPrefix.length(), test.lastIndexOf(mapSuffix));
-        //String mapString = test.substring(test.indexOf(mapPrefix)+mapPrefix.length(), test.lastIndexOf(mapSuffix));
+        String mapString = mapContent.replace(" ", "").substring(blankReplaceString.indexOf(mapPrefix) + mapPrefix.length(), blankReplaceString.lastIndexOf(mapSuffix));
 
-        for(int current = 0; current < mapString.length(); current++) {
-            if (mapString.charAt(current) == '{') inQuotes = !inQuotes;
-            if (mapString.charAt(current) == '}') inQuotes = !inQuotes;
-            boolean atLastChar = (current == mapString.length() - 1);
+        //keyとvalueをstringから取り出す、valueがmapでも全部取り出す
+        for(int currentPos = 0; currentPos < mapString.length(); currentPos++) {
+            if (mapString.charAt(currentPos) == '{') inQuotes = !inQuotes;
+            if (mapString.charAt(currentPos) == '}') inQuotes = !inQuotes;
+            boolean atLastChar = (currentPos == mapString.length() - 1);
             if (atLastChar)
-                pairs.add(mapString.substring(startPos));
-            else if (mapString.charAt(current) == ';' && !inQuotes) {
-                pairs.add(mapString.substring(startPos, current));
-                startPos = current + 1;
+                keyValuePairs.add(mapString.substring(startPos));
+            else if (mapString.charAt(currentPos) == ';' && !inQuotes) {
+                keyValuePairs.add(mapString.substring(startPos, currentPos));
+                startPos = currentPos + 1;
             }
         }
 
-        log(pairs);
-        //只取本层的keys
-        //等号前面
-
-        //String[] keyOut = object.split(";");
-        //把key都取出来
-        //value用substring
-
-
-        for (int i = 0; i < pairs.size(); i++) {
-            String keyValue[] = pairs.get(i).trim().split("=", 2);
+        //再帰でmapを構成する
+        for (int i = 0; i < keyValuePairs.size(); i++) {
+            String keyValue[] = keyValuePairs.get(i).split("=", 2);
             String key = keyValue[0];
-            //get 应该是substring
-            //value 或者是value或者是map:{}
             String value = keyValue[1];
 
             if(value.contains(mapPrefix)) {
@@ -464,58 +449,18 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
         return map;
     }
 
+    /**
+     * "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }" <br />
+     * という文字列をMapに変換してtoString()すると？ <br />
+     * <br />
+     * "map:{ key1 = value1 ; key2 = value2 ; key3 = map:{ nkey31 = nvalue31 ; nkey32 = nvalue32 } }" <br />
+     * でも、同じプログラムでMapに変換できるようにするべし。
+     */
     public void test_parseMap_deep() throws Exception {
         Map<String, Object> retMap = new HashMap<String, Object>();
         String mapString = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
         String mapString2 = "map:{ key1 = value1 ; key2 = map:{ nkey1 = map:{ nnkey1 = map:{ nnnkey1 = map:{ nnnnkey1 = nnnnvalue1 } } } ; nkey2 = nvalue2 } ; key3 = value3 }";
-        if(mapString != null) {
-            retMap = toMap(mapString2);
-        }
+        retMap = toMap(mapString2);
         log(retMap.toString());
-
     }
-
-    /*public void test_parseMap_deep() throws Exception {
-        Map<String, Object> retMap = new HashMap<String, Object>();
-        String mapString = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
-        String mapString2 = "map:{ key1 = value1 ; key2 = map:{ nkey1 = map:{ nnkey1 = map:{ nnnkey1 = map:{ nnnnkey1 = nnnnvalue1 } } } ; nkey2 = nvalue2 } ; key3 = value3 }";
-        if(mapString != null) {
-            retMap = toMap(mapString);
-        }
-        log(retMap.toString());
-        //TODO:test1
-        final String aaa = "map:{";
-        final String bbb = "}";
-        Map<String, String> testMap = new HashMap<String, String>();
-        Map<String, String> inMap = new HashMap<String, String>();
-
-
-        //String mapString = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
-        String subMapString = mapString.substring(5,mapString.length()-2);
-        String nestMapString = subMapString.substring(subMapString.indexOf(aaa)+5,subMapString.indexOf(bbb));
-        String nest1MapString = subMapString.substring(subMapString.indexOf(aaa),subMapString.indexOf(bbb)+1);
-        String reMapString = subMapString.replace(nest1MapString,"xxx");
-
-        String[] pairsOut = reMapString.split(";");
-        String[] pairsIn = nestMapString.split(";");
-
-        for (int i = 0; i < pairsOut.length; i++) {
-            String pairOut = pairsOut[i];
-            String[] keyValue = pairOut.replace(" ","").split("=");
-            if(keyValue[1].equals("xxx")){
-                for (int j = 0; j < pairsIn.length; j++) {
-                    String pairIn = pairsIn[j];
-                    String[] keyValueIn = pairIn.replace(" ","").split("=");
-                    inMap.put(keyValueIn[0], keyValueIn[1]);
-                }
-                testMap.put(keyValue[0], inMap.toString());
-            } else {
-                testMap.put(keyValue[0], keyValue[1]);
-            }
-        }
-
-        String maplString = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
-
-        log(testMap.toString());
-    }*/
 }

@@ -6,6 +6,8 @@ import javatry.colorbox.unit.ColorBoxTestCase;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -17,7 +19,28 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
 
     // ===================================================================================
     //                                                                             Convert
-    //                                                                             =======
+    //
+    //
+    //                                                                            =======
+
+    /**
+     * カラーボックスで文字列の値を取り出し、リストで返すメソッド
+     */
+    private ArrayList<Integer> getColorBoxNumContentList(){
+        ArrayList<Integer> colorBoxIntContentList = new ArrayList<Integer>();
+
+        for (ColorBox colorBox : getColorBoxList()) {
+            for (BoxSpace boxSpace : colorBox.getSpaceList()) {
+                Object contents = boxSpace.getContents();
+                if (contents instanceof Integer) {
+                    int intContents = ((Integer) contents);
+                    colorBoxIntContentList.add(intContents);
+                }
+            }
+        }
+        return colorBoxIntContentList;
+    }
+
     /**
      * カラーボックスに入ってる日付の月を全て足したら？
      */
@@ -46,6 +69,9 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
      * @throws Exception
      */
     public void test_countZeroToHundred() throws Exception {
+        ArrayList<Integer> colorBoxStrContentList = getColorBoxNumContentList();
+        //colorBoxStrContentList.sort(Comparator.comparing(String::length).reversed());
+        log("一番長い文字列は " + colorBoxStrContentList.get(0));
     }
 
     // ===================================================================================
