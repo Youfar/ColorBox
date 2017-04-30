@@ -377,7 +377,7 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof Map<?, ?>) {
-                    Map<Objects, Objects> map = (Map)contents;
+                    Map<?, ?> map = (Map)contents;
                     for (Map.Entry entry : map.entrySet()){
                         mapToString.append(entry.getKey());
                         mapToString.append(" = ");

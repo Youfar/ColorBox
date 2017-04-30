@@ -80,22 +80,27 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
      * 青色のカラーボックスに入ってる Map の中の商品で一番高いものは？
      */
     public void test_findMax() {
+        int value = 0;
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
-                if (contents instanceof Map) {
-                    Map map = (Map)contents;
+                if (contents instanceof Map<? ,?>) {
+                    Map<?, ?> map = (Map)contents;
                     Map.Entry<Objects, Objects> maxEntry = null;
-                    //for (Map.Entry entry : map.entrySet()){
-                        //if (entry.getValue() > maxEntry.getValue())
-                    //}
+                    for (Map.Entry entry : map.entrySet()){
+                        int goodValue = (Integer) entry.getValue();
+                        if (goodValue > value) {
+                            value = goodValue;
+                        }
+                    }
                 }
             }
         }
+        log(value);
     }
 
     /**
-     * カラーボックスの中で、一番幅が大きいものでInteger型を持っているカラーボックスの色は？
+     * カラーボックスの中で、一番幅が大きいものでInteger型を持っているカラーボックスの色は？asdasd
      */
     public void test_findColorBigWidthHasInteger() {
     }
