@@ -25,7 +25,14 @@ public class ChoOhQ2DateTest extends ColorBoxTestCase {
      * カラーボックスに入っている日付をスラッシュ区切りのフォーマットで表示したら？
      */
     public void test_convert() {
-
+        for (ColorBox colorBox : getColorBoxList()) {
+            for (BoxSpace boxSpace : colorBox.getSpaceList()) {
+                Object contents = boxSpace.getContents();
+                if (contents instanceof LocalDateTime) {
+                    log(toLocalDate(contents).toString());
+                }
+            }
+        }
     }
 
     // ===================================================================================

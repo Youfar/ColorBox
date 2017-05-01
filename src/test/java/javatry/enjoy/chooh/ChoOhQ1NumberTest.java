@@ -1,6 +1,8 @@
 package javatry.enjoy.chooh;
 
 import javatry.colorbox.ColorBox;
+import javatry.colorbox.color.BoxColor;
+import javatry.colorbox.size.BoxSize;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 
@@ -131,11 +133,40 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
      * カラーボックスの中で、一番幅が大きいものでInteger型を持っているカラーボックスの色は？
      */
     public void test_findColorBigWidthHasInteger() {
+        int maxDepth = 0;
+        List<ColorBox> colorBoxList = getColorBoxList();
+        if (colorBoxList.size() == 0) {
+            log("カラーボックスがそもそも存在しない");
+        } else {
+            for (ColorBox colorBox : getColorBoxList()) {
+                BoxSize size = colorBox.getSize();
+                if (size.getDepth() > maxDepth) {
+                    maxDepth = size.getDepth();
+                }
+            }
+        }
+        log(maxDepth);
     }
 
     /**
      * カラーボックスの中に入ってる BigDecimal を全て足し合わせると？
      */
     public void test_sumBigDecimal() {
+        BigDecimal sum = BigDecimal.valueOf(0);
+        for (ColorBox colorBox : getColorBoxList()) {
+            for (BoxSpace boxSpace : colorBox.getSpaceList()) {
+                Object contents = boxSpace.getContents();
+                if (contents instanceof List) {
+                    List<Object> ls = new ArrayList<>();
+                    ls.addAll((List) contents);
+                    for (int i = 0; i < ls.size(); i++) {
+                        if (ls.get(i) instanceof BigDecimal) {
+                            sum = sum.add((BigDecimal) ls.get(i));
+                        }
+                    }
+                }
+            }
+        }
+        log(sum);
     }
 }
