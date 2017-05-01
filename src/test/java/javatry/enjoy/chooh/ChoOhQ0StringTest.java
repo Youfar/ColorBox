@@ -139,7 +139,7 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
     /**
      * 「かまくら」で始まる文字列をしまっているカラーボックスの色は？
      */
-  
+
     public void test_startsWith_findFirstWord() {
         Set<String> colorNameSet = new HashSet<>();
         for (ColorBox colorBox : getColorBoxList()) {

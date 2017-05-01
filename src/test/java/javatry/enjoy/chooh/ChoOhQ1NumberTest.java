@@ -4,6 +4,7 @@ import javatry.colorbox.ColorBox;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -24,8 +25,8 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
     /**
      * カラーボックスで文字列の値を取り出し、リストで返すメソッド
      */
-    private ArrayList<Integer> getColorBoxNumContentList(){
-        ArrayList<Integer> colorBoxIntContentList = new ArrayList<Integer>();
+    private List<Integer> getColorBoxNumContentList(){
+        List<Integer> colorBoxIntContentList = new ArrayList<Integer>();
 
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
@@ -67,10 +68,37 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
      * @throws Exception
      */
     public void test_countZeroToHundred() throws Exception {
-        //ArrayList<Integer> colorBoxStrContentList = getColorBoxNumContentList();
-        //colorBoxStrContentList.sort(Comparator.comparing(String::length).reversed());
-        //log("一番長い文字列は " + colorBoxStrContentList.get(0));
+        Set<Object> colorNameSet = new HashSet<>();
+        for (ColorBox colorBox : getColorBoxList()) {
+            for (BoxSpace boxSpace : colorBox.getSpaceList()) {
+                Object contents = boxSpace.getContents();
+                if (contents instanceof Integer) {
+                    int intContents = ((Integer) contents);
+                    colorNameSet.add(intContents);
+                } else if (contents instanceof Map<?, ?>) {
+                    Map<?, ?> map = (Map<?, ?>) contents;
+                    for (Map.Entry entry : map.entrySet()) {
+                        if(entry.getKey() instanceof Integer) {
+                            int intKeyContents = ((Integer) entry.getKey());
+                            colorNameSet.add(intKeyContents);
+                        } else if (entry.getValue() instanceof Integer) {
+                            int intValueContents = ((Integer) entry.getValue());
+                            colorNameSet.add(intValueContents);
+                        }
+                    }
+                } else if (contents instanceof List) {
+                    List<Object> ls = new ArrayList<>();
+                    ls.addAll((List) contents);
+                    for (int i = 0; i < ls.size(); i++) {
+                        if(ls.get(i) instanceof BigDecimal) {
+                            colorNameSet.add(ls.get(i));
+                        }
+                    }
+                }
+            }
+        }
 
+        log(colorNameSet.size());
     }
 
     // ===================================================================================
@@ -80,18 +108,23 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
      * 青色のカラーボックスに入ってる Map の中の商品で一番高いものは？
      */
     public void test_findMax() {
+        int value = 0;
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
-                if (contents instanceof Map) {
-                    Map map = (Map)contents;
+                if (contents instanceof Map<? ,?>) {
+                    Map<?, ?> map = (Map)contents;
                     Map.Entry<Objects, Objects> maxEntry = null;
-                    //for (Map.Entry entry : map.entrySet()){
-                        //if (entry.getValue() > maxEntry.getValue())
-                    //}
+                    for (Map.Entry entry : map.entrySet()){
+                        int goodValue = (Integer) entry.getValue();
+                        if (goodValue > value) {
+                            value = goodValue;
+                        }
+                    }
                 }
             }
         }
+        log(value);
     }
 
     /**
