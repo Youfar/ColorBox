@@ -139,27 +139,25 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
     /**
      * 「かまくら」で始まる文字列をしまっているカラーボックスの色は？
      */
-    // TODO oh インターフェースで受ける習慣を (つまり Set だね) by yuto (2017/04/26)
-    // TODO oh 順番と重複を意識しない Set を使おう！！ by yuto (2017/04/26)
+  
     public void test_startsWith_findFirstWord() {
-        List<String> colorNameList = new ArrayList<String>();
+        Set<String> colorNameSet = new HashSet<>();
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof String) {
                     String strContents = contents.toString();
                     if (strContents.startsWith("かまくら")){
-                        colorNameList.add(colorBox.getColor().toString());
+                        colorNameSet.add(colorBox.getColor().toString());
                     }
                 }
             }
         }
 
-        // TODO oh iteratorはelseの中だけで良くない？ by yuto (2017/04/26)
-        Iterator<String> i = colorNameList.iterator();
-        if (colorNameList.isEmpty()) {
+        if (colorNameSet.isEmpty()) {
             log("「かまくら」で始まる文字列はありません");
         } else {
+            Iterator<String> i = colorNameSet.iterator();
             while(i.hasNext()) {
                 log("「かまくら」で始まる文字列をしまっているカラーボックスの色は " + i.next());
             }
@@ -170,22 +168,23 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * 「いぬ」で終わる文字列をしまっているカラーボックスの色は？
      */
     public void test_endsWith_findLastWord() {
-        ArrayList<String> colorNameList = new ArrayList<String>();
+        Set<String> colorNameSet = new HashSet<>();
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof String) {
                     String strContents = contents.toString();
                     if (strContents.endsWith("いぬ")){
-                        colorNameList.add(colorBox.getColor().toString());
+                        colorNameSet.add(colorBox.getColor().toString());
                     }
                 }
             }
         }
-        Iterator<String> i = colorNameList.iterator();
-        if (colorNameList.isEmpty()) {
+
+        if (colorNameSet.isEmpty()) {
             log("「いぬ」で終わる文字列はありません");
         } else {
+            Iterator<String> i = colorNameSet.iterator();
             while(i.hasNext()) {
                 log("「いぬ」で終わる文字列をしまっているカラーボックスの色は " + i.next());
             }
@@ -199,22 +198,23 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * あなたのカラーボックスに入ってる「いぬ」で終わる文字列で、「いぬ」は何文字目から始まる？
      */
     public void test_indexOf_findIndex() {
-        ArrayList<Integer> strPositionList = new ArrayList<Integer>();
+        Set<Integer> strPositionSet = new HashSet<>();
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof String) {
                     String strContents = contents.toString();
                     if (strContents.endsWith("いぬ")){
-                        strPositionList.add(strContents.indexOf("いぬ"));
+                        strPositionSet.add(strContents.indexOf("いぬ"));
                     }
                 }
             }
         }
-        Iterator<Integer> i = strPositionList.iterator();
-        if (strPositionList.isEmpty()) {
+
+        if (strPositionSet.isEmpty()) {
             log("「いぬ」で終わる文字列はありません");
         } else {
+            Iterator<Integer> i = strPositionSet.iterator();
             while(i.hasNext()) {
                 log("「いぬ」で終わる文字列で、「いぬ」は " + i.next() + " 文字目から始まる");
             }
@@ -225,22 +225,23 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * あなたのカラーボックスに入ってる「ず」を二つ以上含む文字列で、最後の「ず」は何文字目から始まる？
      */
     public void test_lastIndexOf_findIndex() {
-        ArrayList<Integer> strPositionList = new ArrayList<Integer>();
+        Set<Integer> strPositionSet = new HashSet<>();
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof String) {
                     String strContents = contents.toString();
                     if (strContents.indexOf("ず") != strContents.lastIndexOf("ず")){
-                        strPositionList.add(strContents.lastIndexOf("ず"));
+                        strPositionSet.add(strContents.lastIndexOf("ず"));
                     }
                 }
             }
         }
-        Iterator<Integer> i = strPositionList.iterator();
-        if (strPositionList.isEmpty()) {
+
+        if (strPositionSet.isEmpty()) {
             log("「ず」で含む文字列はありませんまた「ず」は一つだけ");
         } else {
+            Iterator<Integer> i = strPositionSet.iterator();
             while(i.hasNext()) {
                 log("最後の「ず」は " + i.next() + " 文字目から始まる");
             }
@@ -254,22 +255,23 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる「いぬ」で終わる文字列の最初の一文字は？
      */
     public void test_substring_findFirstChar() {
-        ArrayList<String> strList = new ArrayList<String>();
+        Set<String> strSet = new HashSet<>();
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof String) {
                     String strContent = (String) contents;
                     if (strContent.endsWith("いぬ")){
-                        strList.add(strContent.substring(0, 1));
+                        strSet.add(strContent.substring(0, 1));
                     }
                 }
             }
         }
-        Iterator<String> i = strList.iterator();
-        if (strList.isEmpty()) {
+
+        if (strSet.isEmpty()) {
             log("「いぬ」で終わる文字列はありません");
         } else {
+            Iterator<String> i = strSet.iterator();
             while(i.hasNext()) {
                 log("「いぬ」で終わる文字列の最初の一文字は " + i.next());
             }
@@ -280,22 +282,23 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる「かまくら」で始まる文字列の最後の一文字は？
      */
     public void test_substring_findLastChar() {
-        ArrayList<String> strList = new ArrayList<String>();
+        Set<String> strSet = new HashSet<>();
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof String) {
                     String strContent = (String) contents;
                     if (strContent.startsWith("かまくら")){
-                        strList.add(strContent.substring(strContent.length() - 1, strContent.length()));
+                        strSet.add(strContent.substring(strContent.length() - 1, strContent.length()));
                     }
                 }
             }
         }
-        Iterator<String> i = strList.iterator();
-        if (strList.isEmpty()) {
+
+        if (strSet.isEmpty()) {
             log("「かまくら」で始まる文字列はありません");
         } else {
+            Iterator<String> i = strSet.iterator();
             while(i.hasNext()) {
                 log("「かまくら」で始まる文字列の最後の一文字は " + i.next());
             }
@@ -309,22 +312,23 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる「ー」を含んだ文字列から「ー」を全て除去したら何文字？
      */
     public void test_replace_removeBo() {
-        ArrayList<Integer> strList = new ArrayList<Integer>();
+        Set<Integer> strSet = new HashSet<>();
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof String) {
                     String strContent = (String) contents;
                     if (strContent.contains("ー")) {
-                        strList.add(strContent.replace("ー", "").length());
+                        strSet.add(strContent.replace("ー", "").length());
                     }
                 }
             }
         }
-        Iterator<Integer> i = strList.iterator();
-        if (strList.isEmpty()) {
+
+        if (strSet.isEmpty()) {
             log("「ー」を含んだ文字列はありません");
         } else {
+            Iterator<Integer> i = strSet.iterator();
             while(i.hasNext()) {
                 log("「ー」を含んだ文字列から「ー」を全て除去したら " + i.next() + " 文字");
             }
@@ -337,15 +341,19 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
     /**
      * カラーボックスの中で、色の名前が一番長いものは？
      */
-    // TODO oh カラーボックスがそもそも存在しないならエラーになるので、どうにかしよう by yuto (2017/04/26)
     public void test_findMaxColorSize() throws Exception {
         ArrayList<String> colorNameList = new ArrayList<String>();
-        for (ColorBox colorBox : getColorBoxList()) {
-            BoxColor color = colorBox.getColor();
-            colorNameList.add(color.toString());
+        List<ColorBox> colorBoxList = getColorBoxList();
+        if (colorBoxList.size() == 0){
+            log("カラーボックスがそもそも存在しない");
+        } else {
+            for (ColorBox colorBox : getColorBoxList()) {
+                BoxColor color = colorBox.getColor();
+                colorNameList.add(color.toString());
+            }
+            colorNameList.sort(Comparator.comparing(String::length).reversed());
+            log("色の名前が一番長いものは " + colorNameList.get(0));
         }
-        colorNameList.sort(Comparator.comparing(String::length).reversed());
-        log("色の名前が一番長いものは " + colorNameList.get(0));
     }
 
     /**
@@ -377,7 +385,7 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof Map<?, ?>) {
-                    Map<Objects, Objects> map = (Map)contents;
+                    Map<?, ?> map = (Map<?, ?>) contents;
                     for (Map.Entry entry : map.entrySet()){
                         mapToString.append(entry.getKey());
                         mapToString.append(" = ");
@@ -420,12 +428,13 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
     }
 
     /**
-     * ???
+     * 同じレベルのkeyとvalueを取り出してmapを作るメソッド。valueがmapの場合は再帰
      */
 
     public Map<String, Object> toMap(String mapContent) {
         final String mapPrefix = "map:{";
         final String mapSuffix = "}";
+
         Map<String, Object> map = new HashMap<String, Object>();
         Map<String, Object> tempMap = new HashMap<String, Object>();
         List<String> keyValuePairs = new ArrayList<String>();
@@ -434,10 +443,11 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
         int startPos = 0;
 
         String blankReplaceString = mapContent.replace(" ", "");
-
-        String mapString = mapContent.replace(" ", "").substring(blankReplaceString.indexOf(mapPrefix) + mapPrefix.length(), blankReplaceString.lastIndexOf(mapSuffix));
+        String mapString = blankReplaceString.substring(blankReplaceString.indexOf(mapPrefix) +
+                mapPrefix.length(), blankReplaceString.lastIndexOf(mapSuffix));
 
         //keyとvalueをstringから取り出す、valueがmapでも全部取り出す
+        //;は{}の中の場合はsplitしない
         for(int currentPos = 0; currentPos < mapString.length(); currentPos++) {
             if (mapString.charAt(currentPos) == '{') inQuotes = !inQuotes;
             if (mapString.charAt(currentPos) == '}') inQuotes = !inQuotes;
@@ -474,9 +484,10 @@ public class ChoOhQ0StringTest extends ColorBoxTestCase {
      */
     public void test_parseMap_deep() throws Exception {
         Map<String, Object> retMap = new HashMap<String, Object>();
-        String mapString = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
-        String mapString2 = "map:{ key1 = value1 ; key2 = map:{ nkey1 = map:{ nnkey1 = map:{ nnnkey1 = map:{ nnnnkey1 = nnnnvalue1 } } } ; nkey2 = nvalue2 } ; key3 = value3 }";
-        retMap = toMap(mapString2);
+        String mapString1 = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
+        String mapString2 = "map:{ key1 = value1 ; key2 = value2 ; key3 = map:{ nkey31 = nvalue31 ; nkey32 = nvalue32 } }";
+        String mapString3 = "map:{ key1 = value1 ; key2 = map:{ nkey1 = map:{ nnkey1 = map:{ nnnkey1 = map:{ nnnnkey1 = nnnnvalue1 } } } ; nkey2 = nvalue2 } ; key3 = value3 }";
+        retMap = toMap(mapString1);
         log(retMap.toString());
     }
 }
