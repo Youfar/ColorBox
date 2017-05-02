@@ -25,43 +25,19 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
     //                                                                            =======
 
     /**
-     * カラーボックスで文字列の値を取り出し、リストで返すメソッド
-     */
-    private List<Integer> getColorBoxNumContentList(){
-        List<Integer> colorBoxIntContentList = new ArrayList<Integer>();
-
-        for (ColorBox colorBox : getColorBoxList()) {
-            for (BoxSpace boxSpace : colorBox.getSpaceList()) {
-                Object contents = boxSpace.getContents();
-                if (contents instanceof Integer) {
-                    int intContents = ((Integer) contents);
-                    colorBoxIntContentList.add(intContents);
-                }
-            }
-        }
-        return colorBoxIntContentList;
-    }
-
-    /**
      * カラーボックスに入ってる日付の月を全て足したら？
      */
     public void test_sumMonth() {
-        int sum = 0;
-        List<ColorBox> colorBoxList = getColorBoxList();
-        for (int i = 0; i < colorBoxList.size(); i++) {
-            ColorBox colorBox = colorBoxList.get(i);
-            List<BoxSpace> spaceList = colorBox.getSpaceList();
-            for (int j = 0; j < spaceList.size(); j++) {
-                BoxSpace boxSpace = spaceList.get(j);
+        int monthSum = 0;
+        for (ColorBox colorBox : getColorBoxList()) {
+            for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
-                if (contents != null) {
-                    if (contents instanceof LocalDateTime || contents instanceof LocalDate){
-                        sum = sum + toLocalDate(contents).getMonthValue();
-                    }
+                if (contents instanceof LocalDateTime || contents instanceof LocalDate){
+                    monthSum = monthSum + toLocalDate(contents).getMonthValue();
                 }
             }
         }
-        log(sum);
+        log("カラーボックスに入ってる日付の月を全て足したら " + monthSum + " 月");
 
     }
 
@@ -69,6 +45,7 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
      * カラーボックの中に入っている、0~100までの数値の数は？
      * @throws Exception
      */
+    //実数
     public void test_countZeroToHundred() throws Exception {
         Set<Object> colorNameSet = new HashSet<>();
         for (ColorBox colorBox : getColorBoxList()) {
@@ -110,23 +87,31 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
      * 青色のカラーボックスに入ってる Map の中の商品で一番高いものは？
      */
     public void test_findMax() {
-        int value = 0;
+        int maxValue = 0;
+        Map<?, ?> map;
+        String maxValueItem = "";
         for (ColorBox colorBox : getColorBoxList()) {
-            for (BoxSpace boxSpace : colorBox.getSpaceList()) {
-                Object contents = boxSpace.getContents();
-                if (contents instanceof Map<? ,?>) {
-                    Map<?, ?> map = (Map)contents;
-                    Map.Entry<Objects, Objects> maxEntry = null;
-                    for (Map.Entry entry : map.entrySet()){
-                        int goodValue = (Integer) entry.getValue();
-                        if (goodValue > value) {
-                            value = goodValue;
+            if (colorBox.getColor().toString() == "blue") {
+                for (BoxSpace boxSpace : colorBox.getSpaceList()) {
+                    Object contents = boxSpace.getContents();
+                    if (contents instanceof Map<? ,?>) {
+                        map = (Map)contents;
+                        for (Map.Entry entry : map.entrySet()){
+                            int priceValue = (Integer) entry.getValue();
+                            if (priceValue > maxValue) {
+                                maxValue = priceValue;
+                            }
+                        }
+                        for (Map.Entry entry : map.entrySet()){
+                            if (Objects.equals(maxValue, entry.getValue())) {
+                                maxValueItem = (String) entry.getKey();
+                            }
                         }
                     }
                 }
             }
         }
-        log(value);
+        log("青色のカラーボックスに入ってる Map の中の商品で一番高いものは " + maxValueItem);
     }
 
     /**
@@ -140,8 +125,8 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
         } else {
             for (ColorBox colorBox : getColorBoxList()) {
                 BoxSize size = colorBox.getSize();
-                if (size.getDepth() > maxDepth) {
-                    maxDepth = size.getDepth();
+                if (size.getWidth() > maxDepth) {
+                    maxDepth = size.getWidth();
                 }
             }
         }

@@ -50,7 +50,7 @@ public class ChoOhQ2DateTest extends ColorBoxTestCase {
                 if (contents instanceof LocalDateTime) {
                     if (toLocalDate(contents).isBefore(dtx)) {
                         dtx = toLocalDate(contents);
-                        log("最初の日付は何曜日 " + dtx.getDayOfWeek());
+                        log("最初の日付は " + dtx.getDayOfWeek() + "曜日");
                     }
                 }
             }
@@ -115,9 +115,7 @@ public class ChoOhQ2DateTest extends ColorBoxTestCase {
         if (strList.isEmpty()) {
             log("色がyellowのカラーボックスに入っている日付はありません");
         } else {
-            Period diff = Period.between(strList.get(0), strList.get(1));
             long diffInDays = ChronoUnit.DAYS.between(strList.get(1), strList.get(0));
-            //long elapsedDays = ChronoUnit.DAYS.between(strList.get(0), strList.get(1));
             log(diffInDays);
         }
     }
