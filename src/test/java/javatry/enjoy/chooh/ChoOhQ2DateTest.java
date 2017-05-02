@@ -24,6 +24,7 @@ public class ChoOhQ2DateTest extends ColorBoxTestCase {
     /**
      * カラーボックスに入っている日付をスラッシュ区切りのフォーマットで表示したら？
      */
+
     public void test_convert() {
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
@@ -33,6 +34,18 @@ public class ChoOhQ2DateTest extends ColorBoxTestCase {
                 }
             }
         }
+    }
+
+    public String getCharacterWeekOfDay (String englishCharater) {
+        Map<String, String> charaterDict = new HashMap<>();
+        charaterDict.put("MONDAY", "月曜日");
+        charaterDict.put("TUESDAY", "火曜日");
+        charaterDict.put("WEDNESDAY", "水曜日");
+        charaterDict.put("THURSDAY", "木曜日");
+        charaterDict.put("FRIDAY", "金曜日");
+        charaterDict.put("SATURDAY", "土曜日");
+        charaterDict.put("SUNDAY", "日曜日");
+        return (charaterDict.get(englishCharater));
     }
 
     // ===================================================================================
@@ -50,7 +63,7 @@ public class ChoOhQ2DateTest extends ColorBoxTestCase {
                 if (contents instanceof LocalDateTime) {
                     if (toLocalDate(contents).isBefore(dtx)) {
                         dtx = toLocalDate(contents);
-                        log("最初の日付は " + dtx.getDayOfWeek() + "曜日");
+                        log("最初の日付は " + getCharacterWeekOfDay(dtx.getDayOfWeek().toString()));
                     }
                 }
             }
@@ -77,7 +90,7 @@ public class ChoOhQ2DateTest extends ColorBoxTestCase {
             log("色がyellowのカラーボックスに入っている日付はありません");
         } else {
             while(i.hasNext()) {
-                log("色がyellowのカラーボックスに入っている二つの日付にそれぞれ3日足すと " + i.next().getDayOfWeek() + " 曜日");
+                log("色がyellowのカラーボックスに入っている二つの日付にそれぞれ3日足すと " + getCharacterWeekOfDay(i.next().getDayOfWeek().toString()));
             }
         }
     }
@@ -88,9 +101,9 @@ public class ChoOhQ2DateTest extends ColorBoxTestCase {
     public void test_weekOfDayOf2017Newcomer() {
         LocalDate dt = toLocalDate("2018/04/01");
         if(dt.getDayOfWeek().toString() == "SUNDAY" || dt.getDayOfWeek().toString() == "SATURDAY") {
-            log("月曜日");
+            log("来年(2018年)の新卒が入社する日は月曜日");
         } else {
-            log(dt.getDayOfWeek());
+            log("来年(2018年)の新卒が入社する日は" + getCharacterWeekOfDay(dt.getDayOfWeek().toString()));
         }
     }
 

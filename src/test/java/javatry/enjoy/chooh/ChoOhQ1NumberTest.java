@@ -119,6 +119,7 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
      */
     public void test_findColorBigWidthHasInteger() {
         int maxDepth = 0;
+        String maxColorName = "";
         List<ColorBox> colorBoxList = getColorBoxList();
         if (colorBoxList.size() == 0) {
             log("カラーボックスがそもそも存在しない");
@@ -127,17 +128,18 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
                 BoxSize size = colorBox.getSize();
                 if (size.getWidth() > maxDepth) {
                     maxDepth = size.getWidth();
+                    maxColorName = colorBox.getColor().toString();
                 }
             }
         }
-        log(maxDepth);
+        log("カラーボックスの中で、一番幅が大きいものでInteger型を持っているカラーボックスの色は" + maxColorName);
     }
 
     /**
      * カラーボックスの中に入ってる BigDecimal を全て足し合わせると？
      */
     public void test_sumBigDecimal() {
-        BigDecimal sum = BigDecimal.valueOf(0);
+        BigDecimal bigDecimalSum = BigDecimal.valueOf(0);
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
@@ -146,12 +148,12 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
                     ls.addAll((List) contents);
                     for (int i = 0; i < ls.size(); i++) {
                         if (ls.get(i) instanceof BigDecimal) {
-                            sum = sum.add((BigDecimal) ls.get(i));
+                            bigDecimalSum = bigDecimalSum.add((BigDecimal) ls.get(i));
                         }
                     }
                 }
             }
         }
-        log(sum);
+        log("カラーボックスの中に入ってる BigDecimal を全て足し合わせると" + bigDecimalSum);
     }
 }
