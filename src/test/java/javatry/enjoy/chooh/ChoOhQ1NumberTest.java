@@ -1,7 +1,6 @@
 package javatry.enjoy.chooh;
 
 import javatry.colorbox.ColorBox;
-import javatry.colorbox.color.BoxColor;
 import javatry.colorbox.size.BoxSize;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
@@ -37,7 +36,7 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
                 }
             }
         }
-        log("カラーボックスに入ってる日付の月を全て足したら " + monthSum + " 月");
+        log("カラーボックスに入ってる日付の月を全て足したら " + monthSum + " ヶ月です");
 
     }
 
@@ -45,24 +44,23 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
      * カラーボックの中に入っている、0~100までの数値の数は？
      * @throws Exception
      */
-    //実数
     public void test_countZeroToHundred() throws Exception {
-        Set<Object> colorNameSet = new HashSet<>();
+        Set<Object> numberSet = new HashSet<>();
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
-                if (contents instanceof Integer) {
-                    int intContents = ((Integer) contents);
-                    colorNameSet.add(intContents);
+                if (contents instanceof Number) {
+                    Number numContents = (Number) contents;
+                    numberSet.add(numContents);
                 } else if (contents instanceof Map<?, ?>) {
                     Map<?, ?> map = (Map<?, ?>) contents;
                     for (Map.Entry entry : map.entrySet()) {
                         if(entry.getKey() instanceof Integer) {
                             int intKeyContents = ((Integer) entry.getKey());
-                            colorNameSet.add(intKeyContents);
+                            numberSet.add(intKeyContents);
                         } else if (entry.getValue() instanceof Integer) {
                             int intValueContents = ((Integer) entry.getValue());
-                            colorNameSet.add(intValueContents);
+                            numberSet.add(intValueContents);
                         }
                     }
                 } else if (contents instanceof List) {
@@ -70,14 +68,14 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
                     ls.addAll((List) contents);
                     for (int i = 0; i < ls.size(); i++) {
                         if(ls.get(i) instanceof BigDecimal) {
-                            colorNameSet.add(ls.get(i));
+                            numberSet.add(ls.get(i));
                         }
                     }
                 }
             }
         }
 
-        log(colorNameSet.size());
+        log("カラーボックの中に入っている、0~100までの数値の数は " + numberSet.size() + "　個です");
     }
 
     // ===================================================================================
@@ -91,7 +89,7 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
         Map<?, ?> map;
         String maxValueItem = "";
         for (ColorBox colorBox : getColorBoxList()) {
-            if (colorBox.getColor().toString() == "blue") {
+            if (colorBox.getColor().toString().equals("blue")) {
                 for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                     Object contents = boxSpace.getContents();
                     if (contents instanceof Map<? ,?>) {
@@ -118,7 +116,7 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
      * カラーボックスの中で、一番幅が大きいものでInteger型を持っているカラーボックスの色は？
      */
     public void test_findColorBigWidthHasInteger() {
-        int maxDepth = 0;
+        int maxWidth = 0;
         String maxColorName = "";
         List<ColorBox> colorBoxList = getColorBoxList();
         if (colorBoxList.size() == 0) {
@@ -126,8 +124,8 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
         } else {
             for (ColorBox colorBox : getColorBoxList()) {
                 BoxSize size = colorBox.getSize();
-                if (size.getWidth() > maxDepth) {
-                    maxDepth = size.getWidth();
+                if (size.getWidth() > maxWidth) {
+                    maxWidth = size.getWidth();
                     maxColorName = colorBox.getColor().toString();
                 }
             }
@@ -139,21 +137,21 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
      * カラーボックスの中に入ってる BigDecimal を全て足し合わせると？
      */
     public void test_sumBigDecimal() {
-        BigDecimal bigDecimalSum = BigDecimal.valueOf(0);
+        BigDecimal bigDecimalSum = BigDecimal.ZERO;
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof List) {
-                    List<Object> ls = new ArrayList<>();
-                    ls.addAll((List) contents);
-                    for (int i = 0; i < ls.size(); i++) {
-                        if (ls.get(i) instanceof BigDecimal) {
-                            bigDecimalSum = bigDecimalSum.add((BigDecimal) ls.get(i));
+                    List<Object> bigDecimalList = new ArrayList<>();
+                    bigDecimalList.addAll((List) contents);
+                    for (int i = 0; i < bigDecimalList.size(); i++) {
+                        if (bigDecimalList.get(i) instanceof BigDecimal) {
+                            bigDecimalSum = bigDecimalSum.add((BigDecimal) bigDecimalList.get(i));
                         }
                     }
                 }
             }
         }
-        log("カラーボックスの中に入ってる BigDecimal を全て足し合わせると" + bigDecimalSum);
+        log("カラーボックスの中に入ってる BigDecimal を全て足し合わせると " + bigDecimalSum + " です");
     }
 }
