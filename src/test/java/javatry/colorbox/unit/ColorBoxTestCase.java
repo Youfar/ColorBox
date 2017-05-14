@@ -37,6 +37,16 @@ public abstract class ColorBoxTestCase extends UnitryTestCase {
             colorBoxList.add(colorBox);
         }
         {
+            DoorColorBox colorBox = new DoorColorBox(new BoxColor("grey"), new BoxSize(500, 300, 400));
+            colorBox.getUpperSpace().addContents(new File("/tmp/jflute.txt"));
+            Map<String, Integer> map = new LinkedHashMap<String, Integer>();
+            map.put("じゃがいろ", 198);
+            map.put("みはねあいす", 390);
+            map.put("こまつなびーがんなん", 480);
+            colorBox.getLowerSpace().addContents(map);
+            colorBoxList.add(colorBox);
+        }
+        {
             CompactColorBox colorBox = new CompactColorBox(new BoxColor("blue"), new BoxSize(50, 30, 40));
             colorBox.getUpperSpace().addContents(new File("/tmp/jflute.txt"));
             Map<String, Integer> map = new LinkedHashMap<String, Integer>();
@@ -48,8 +58,10 @@ public abstract class ColorBoxTestCase extends UnitryTestCase {
         }
         {
             StandardColorBox colorBox = new StandardColorBox(new BoxColor("yellow"), new BoxSize(40, 50, 30));
-            colorBox.getUpperSpace().addContents(toLocalDateTime("2012/06/04 23:59:59"));
-            colorBox.getMiddleSpace().addContents(toLocalDate("2012/09/26"));
+//            colorBox.getUpperSpace().addContents(toLocalDateTime("2012/06/04 23:59:59"));
+//            colorBox.getMiddleSpace().addContents(toLocalDate("2012/09/26"));
+            colorBox.getUpperSpace().addContents(toLocalDateTime("2017/5/9 23:59:59"));
+            colorBox.getMiddleSpace().addContents(toLocalDate("2017/4/3"));
             List<BigDecimal> decimalList = new ArrayList<BigDecimal>();
             decimalList.add(new BigDecimal(2));
             decimalList.add(new BigDecimal("3.14159"));
