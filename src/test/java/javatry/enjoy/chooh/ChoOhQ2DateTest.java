@@ -8,17 +8,20 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-//import java.time.LocalDate;
-//import java.time.LocalDateTime;
-//import java.time.*;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 /**
  * 日付関連のテスト。<br>
  * 何々は？と言われたら、それに該当するものをログに出力すること。
+ *
  * @author ChoOh
  */
 public class ChoOhQ2DateTest extends ColorBoxTestCase {
+
 
     // ===================================================================================
     //                                                                             Convert
@@ -65,11 +68,11 @@ public class ChoOhQ2DateTest extends ColorBoxTestCase {
     // ===================================================================================
     //                                                                              Basic
     //                                                                             =======
+
     /**
      * カラーボックスに入っている最初の日付は何曜日？
      */
     public void test_weekOfDay() {
-
         LocalDate minDate = LocalDate.MAX;
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
@@ -103,17 +106,17 @@ public class ChoOhQ2DateTest extends ColorBoxTestCase {
                     if (contents instanceof LocalDate || contents instanceof LocalDateTime) {
                         localDateList.add(toLocalDate(contents).plusDays(3));
                     }
+                    // TODO oh この宣言はelseの中でいいよね。変数宣言は使うスコープの中で。
+                    // そして今回log出すだけなら拡張for文で事足りるのでは by yuki.wakisaka (2017/05/09)
+                    Iterator<LocalDate> i = localDateList.iterator();
+                    if (localDateList.isEmpty()) {
+                        log("色がyellowのカラーボックスに入っている日付はありません");
+                    } else {
+                        while (i.hasNext()) {
+                            log("色がyellowのカラーボックスに入っている二つの日付にそれぞれ3日足すと " + getCharacterWeekOfDay(i.next().getDayOfWeek().toString()) + "になる");
+                        }
+                    }
                 }
-            }
-        }
-        // TODO oh この宣言はelseの中でいいよね。変数宣言は使うスコープの中で。
-        // そして今回log出すだけなら拡張for文で事足りるのでは by yuki.wakisaka (2017/05/09)
-        Iterator<LocalDate> i = localDateList.iterator();
-        if (localDateList.isEmpty()) {
-            log("色がyellowのカラーボックスに入っている日付はありません");
-        } else {
-            while (i.hasNext()) {
-                log("色がyellowのカラーボックスに入っている二つの日付にそれぞれ3日足すと " + getCharacterWeekOfDay(i.next().getDayOfWeek().toString()) + "になる");
             }
         }
     }
@@ -135,6 +138,7 @@ public class ChoOhQ2DateTest extends ColorBoxTestCase {
     // ===================================================================================
     //                                                                           Good Luck
     //                                                                           =========
+
     /**
      * 色がyellowのカラーボックスに入っている二つの日付の日数の差は？
      */

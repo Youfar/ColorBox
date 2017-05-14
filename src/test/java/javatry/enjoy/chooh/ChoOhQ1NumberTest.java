@@ -1,7 +1,6 @@
 package javatry.enjoy.chooh;
 
 import javatry.colorbox.ColorBox;
-import javatry.colorbox.color.BoxColor;
 import javatry.colorbox.size.BoxSize;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
@@ -23,24 +22,6 @@ public class ChoOhQ1NumberTest extends ColorBoxTestCase {
     //
     //
     //                                                                            =======
-
-    /**
-     * カラーボックスで文字列の値を取り出し、リストで返すメソッド
-     */
-    private List<Integer> getColorBoxNumContentList(){
-        List<Integer> colorBoxIntContentList = new ArrayList<Integer>();
-
-        for (ColorBox colorBox : getColorBoxList()) {
-            for (BoxSpace boxSpace : colorBox.getSpaceList()) {
-                Object contents = boxSpace.getContents();
-                if (contents instanceof Integer) {
-                    int intContents = ((Integer) contents);
-                    colorBoxIntContentList.add(intContents);
-                }
-            }
-        }
-        return colorBoxIntContentList;
-    }
 
     /**
      * カラーボックスに入ってる日付の月を全て足したら？
